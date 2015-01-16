@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html> 
+<html> 
+	<head> 
+	<title>Page Title</title>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+</head> 
+<body>
+
+  <div data-role="page" id="foo">
+    <div data-role="header">
+      <h1>Show My Contacts Now</h1>
+    </div><!-- /header -->
+
+    <div data-role="content">	
+      Hello World
+      <form>
+        <label for="flip-1">Flip toggle switch:</label>
+        <select id="flip-1" name="flip-1" data-role="slider">
+            <option value="off">Off</option>
+            <option value="on">On</option>
+        </select>
+        <a onclick="takePic()">Take a picture</a><br />
+        <img src="" id="myImage" width="200" height="150" /> 
+        </form>
+      <a href="#bar">Go</a>
+    </div><!-- /content -->
+    <div data-role="footer">
+      <h1>this is my footer</h1>
+    </div><!-- /header -->
+  </div><!-- /page -->
+
+  <div data-role="page" id="bar">
+    <div data-role="header">
+      <h1>This is third page</h1>
+    </div><!-- /header -->
+
+    <div data-role="content">	
+      Page 2....of multi page template
+      <div data-role="collapsible">
+        <h1>Click me - I'm collapsible!</h1>
+            <p>I'm the expanded content.</p>
+        </div>
+        <br /><br />
+        <ul data-role="listview" data-inset="true" data-filter="true">
+    <li><a href="#">Acura</a></li>
+    <li><a href="#">Audi</a></li>
+    <li><a href="#">BMW</a></li>
+    <li><a href="#">Cadillac</a></li>
+    <li><a href="#">Ferrari</a></li>
+</ul>
+
+<a href="#bar2">Go go go</a>
+    </div><!-- /content -->
+    <div data-role="footer">
+      <h1>this is my footer</h1>
+    </div><!-- /header -->
+  </div><!-- /page -->
+
+
+  <div data-role="page" id="bar2">
+    <div data-role="header">
+      <h1>This is second page</h1>
+    </div><!-- /header -->
+
+    <div data-role="content">	
+    <div data-demo-html="true">
+			<div data-role="tabs" id="tabs">
+		      <div data-role="navbar">
+			    <ul>
+			      <li><a href="#one" data-ajax="false">one</a></li>
+			      <li><a href="#two" data-ajax="false">two</a></li>
+			      <li><a href="ajax-content-ignore.html" data-ajax="false">three</a></li>
+			    </ul>
+		      </div>
+		      <div id="one" class="ui-body-d ui-content">
+		        <h1>First tab contents</h1>
+		      </div>
+		      <div id="two">
+		        <ul data-role="listview" data-inset="true">
+		            <li><a href="#">Toyota</a></li>
+		            <li><a href="#">Honda</a></li>
+		            <li><a href="#">Suzuki</a></li>
+		            <li><a href="#">Ford</a></li>
+		            <li><a href="#">Kia</a></li>
+		        </ul>
+		      </div>
+		    </div>
+		</div>
+
+        <a id="testLink" rel="external">Bring the Funk</a>
+        <div data-role="collapsible">
+        <h3>Result from Ray</h3>
+        <p id="resultBlock"></p>
+        <p id="geolocation">Finding geolocation...</p>
+</div>
+
+  </div><!-- /content -->
+    <div data-role="footer">
+      <h1>this is my footer</h1>
+    </div><!-- /header -->
+  </div><!-- /page -->
+
+
+  
+
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript" src="js/myapp.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#testLink").click(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: 'http://echo.jsontest.com/key/value/one/two',
+                data: {
+                    format: 'json'
+                },
+                error: function () {
+                    $('#resultBlock').html('<p>An error has occurred</p>');
+                },
+                dataType: 'jsonp',
+                success: function (data) {
+                    var $first = data.one;
+                    alert("Hello");
+                    alert($first);
+                    var $second = data.key;
+                    $('#resultBlock').append($first).append($second);
+                },
+                type: 'GET'
+            });
+
+
+        });
+
+    });
+
+</script>
+
+<script type="text/javascript" charset="utf-8">
+
+    // Wait for Cordova to load
+    //
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // Cordova is ready
+    //
+    function onDeviceReady() {
+        alert("On device read");
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    }
+
+    // onSuccess Geolocation
+    //
+    function onSuccess(position) {
+        alert("On success");
+        var element = document.getElementById('geolocation');
+        element.innerHTML = 'Latitude: ' + position.coords.latitude + '<br />' +
+                            'Longitude: ' + position.coords.longitude + '<br />' +
+                            'Altitude: ' + position.coords.altitude + '<br />' +
+                            'Accuracy: ' + position.coords.accuracy + '<br />' +
+                            'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '<br />' +
+                            'Heading: ' + position.coords.heading + '<br />' +
+                            'Speed: ' + position.coords.speed + '<br />' +
+                            'Timestamp: ' + position.timestamp + '<br />';
+    }
+
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) {
+        alert('code: ' + error.code + '\n' +
+                'message: ' + error.message + '\n');
+    }
+
+    </script>
+
+</body>
+</html>
+
